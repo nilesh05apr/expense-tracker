@@ -18,5 +18,4 @@ type ExpenseCategory struct {
 	Name 		string 		  			`json:"name,omitempty" bson:"name,omitempty"`
 	Amount 		float64 		  		`json:"amount,omitempty" bson:"amount,omitempty"`
 	MaxAmount 	float64 	  			`json:"maxAmount,omitempty" bson:"maxAmount,omitempty"`
-	ExpenseID 	[]primitive.ObjectID 	`json:"expenseId,omitempty" bson:"expenseId,omitempty"`
 }
