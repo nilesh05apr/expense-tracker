@@ -1,12 +1,19 @@
 import React from 'react'
+import Card from 'react-bootstrap/Card'
 
 function Expense({amount, name, description, date}) {
   return (
     <div>
-        <h1>{name}</h1>
-        <h3>{description}</h3> 
-        <p>{amount}</p>
-        <p>{date}</p>
+      <Card style={{width:"18rem"}}>
+        <Card.Body> 
+          <Card.Title>{name}</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">{amount}</Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted">{date}</Card.Subtitle>
+          <Card.Text>
+            {description}
+          </Card.Text>
+        </Card.Body>
+      </Card>
     </div>
   )
 }

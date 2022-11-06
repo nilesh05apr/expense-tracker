@@ -12,7 +12,8 @@ function Expenses() {
         fetch('http://localhost:8081/api/expenses/')
         .then(res => res.json())
         .then(data => {
-            setExpenses(data)
+            setExpenses(data['data'])
+            console.log(data['data'])
         })
     }, [])
     
@@ -20,7 +21,11 @@ function Expenses() {
   return (
     <div>
         {expenses.map(expense => (
-            <Expense key={expense.id} amount={expense.amount} name={expense.name} description={expense.description} date={expense.date} />
+            <Expense key={expense.id} 
+                    amount={expense.amount} 
+                    name={expense.name} 
+                    description={expense.description} 
+                    date={expense.createdAt} />
         ))} 
     </div>
   )
