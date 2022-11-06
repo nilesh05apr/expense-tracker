@@ -9,7 +9,7 @@ function Expenses() {
     const [expenses, setExpenses] = useState([]);
 
     useEffect(() => {  
-        fetch('http://localhost:8000/api/expenses/')
+        fetch('http://localhost:8081/api/expenses/')
         .then(res => res.json())
         .then(data => {
             setExpenses(data)
