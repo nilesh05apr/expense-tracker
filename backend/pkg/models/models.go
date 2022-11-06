@@ -6,11 +6,12 @@ import (
 )
 
 type Expense struct {
-	ID 			primitive.ObjectID 	`json:"_id,omitempty" bson:"_id,omitempty"`
-	Amount 		float64 		  	`json:"amount,omitempty" bson:"amount,omitempty"`
-	Description string 	  			`json:"description,omitempty" bson:"description,omitempty"`
-	Note 		string 		  		`json:"note,omitempty" bson:"note,omitempty"`
-	CreatedAt 	time.Time   		`json:"createdAt,omitempty" bson:"createdAt,omitempty"`
+	ID 					primitive.ObjectID 	`json:"_id,omitempty" bson:"_id,omitempty"`
+	Amount 				float64 		  	`json:"amount,omitempty" bson:"amount,omitempty"`
+	Description 		string 	  			`json:"description,omitempty" bson:"description,omitempty"`
+	Note 				string 		  		`json:"note,omitempty" bson:"note,omitempty"`
+	CreatedAt 			time.Time   		`json:"createdAt,omitempty" bson:"createdAt,omitempty"`
+	ExpenseCategoryID 	primitive.ObjectID 	`json:"expenseCategoryId,omitempty" bson:"expenseCategoryId,omitempty"`
 }
 
 type ExpenseCategory struct {
