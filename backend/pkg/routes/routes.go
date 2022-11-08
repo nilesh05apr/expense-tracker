@@ -9,6 +9,7 @@ import (
 func Routes(app *fiber.App) {
 	app.Get("/api/expenses", controllers.GetExpenses)
 	app.Get("/api/expenses/:id", controllers.GetExpense)
+	app.Get("/api/expenses/category/:id", controllers.GetExpenseByCategory)
 	app.Post("/api/expenses", controllers.CreateExpense)
 	app.Put("/api/expenses/:id", controllers.UpdateExpense)
 	app.Delete("/api/expenses/:id", controllers.DeleteExpense)

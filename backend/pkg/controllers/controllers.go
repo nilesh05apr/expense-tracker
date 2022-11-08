@@ -66,6 +66,34 @@ func GetExpense(c *fiber.Ctx) error {
 	})
 }
 
+// Get all expense by category
+func GetExpenseByCategory(c *fiber.Ctx) error {
+	id := c.Params("id")
+	objID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"expenseCategoryId": objID}
+	var expenses []models.Expense
+	cur, err := expenseCollection.Find(context.Background(), filter)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"message": "Cannot get expense by category",
+			"error": err,
+		})
+	}
+	if err = cur.All(context.Background(), &expenses); err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"message": "Cannot get expense by category",
+			"error": err,
+		})
+	}
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"data": expenses,
+	})
+}
+
+
 // Create expense
 func CreateExpense(c *fiber.Ctx) error {
 	var expense models.Expense
