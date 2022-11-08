@@ -10,7 +10,7 @@ const AMOUNT = 10000;
 
 function Category({categoryid, name, amount, maxamount}) {
 
-  console.log("category id from Category.js: "+categoryid)
+//  console.log("category id from Category.js: "+categoryid)
 
   const [show, setShow] = useState(false);
 

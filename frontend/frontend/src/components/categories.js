@@ -11,7 +11,7 @@ function Categories() {
         .then(data => {
             setCategories(data['data'])
             console.log(data['data'])
-            console.log(data['data'][0]._id)
+//            console.log(data['data'][0]._id)
         })
     }, [])
 

@@ -8,7 +8,7 @@ function Expenses({c_id}) {
     const [expenses, setExpenses] = useState([]);
 
     useEffect(() => {  
-        fetch('http://localhost:8081/api/expenses/')
+        fetch('http://localhost:8081/api/expenses/category/'+c_id)
         .then(res => res.json())
         .then(data => {
             setExpenses(data['data'])
@@ -20,7 +20,7 @@ function Expenses({c_id}) {
     <div>
             <Stack direction='vertical' gap={3}>
                 {
-                    expenses.filter((expense,{c_id})=>{return expense.expenseCategoryId === c_id;}).map(expense => (
+                    expenses.map(expense => (
                         <Expense key={expense._id}
                             name={expense.name}
                             amount={expense.amount}
