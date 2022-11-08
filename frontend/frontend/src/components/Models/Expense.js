@@ -1,6 +1,7 @@
 import React from 'react'
 import Stack from 'react-bootstrap/esm/Stack';
-import handleCurrency from '../utils';
+//import handleCurrency from '../utils';
+import { handleCurrency } from '../utils';
 
 function Expense({amount, name, description, date}) {
   return (
