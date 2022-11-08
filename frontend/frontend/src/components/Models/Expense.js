@@ -1,19 +1,18 @@
 import React from 'react'
-import Card from 'react-bootstrap/Card'
+import Stack from 'react-bootstrap/esm/Stack';
+import handleCurrency from '../utils';
 
 function Expense({amount, name, description, date}) {
   return (
     <div>
-      <Card style={{width:"18rem"}}>
-        <Card.Body> 
-          <Card.Title>{name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{amount}</Card.Subtitle>
-          <Card.Subtitle className="mb-2 text-muted">{date}</Card.Subtitle>
-          <Card.Text>
-            {description}
-          </Card.Text>
-        </Card.Body>
-      </Card>
+      <Stack direction='horizontal' gap={2}>
+      <div className="ms-2 me-auto">
+          <div className="fw-bold">{name}</div>
+          <span className='me-auto'>{date}</span>
+        </div>
+        <div className="me-auto fs-4">{description}</div>
+        <div className='fs-5'>{handleCurrency(amount)}</div>
+      </Stack>
     </div>
   )
 }

@@ -1,11 +1,11 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Expenses from './components/expenses';
+import Categories from './components/categories';
 
 function App() {
   return (
     <div className="App">
-      <Expenses />
+      <Categories />
     </div>
   );
 }
