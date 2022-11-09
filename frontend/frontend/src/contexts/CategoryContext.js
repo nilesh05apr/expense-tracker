@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 const CategoryContext = React.createContext();
@@ -8,8 +8,12 @@ export function useCategory() {
 }
 
 export const CategoryProvider = ({ children }) => {
-  const [category, setCategory] = useLocalStorage('category', []);
-  const [expense, setExpense] = useLocalStorage('expense', []);
+  // const [category, setCategory] = useLocalStorage('category', []);
+  // const [expense, setExpense] = useLocalStorage('expense', []);
+
+  const [category, setCategory] = useState([]);
+  const [expense, setExpense] = useState([]);
+
 
     const createCategory = (name, maxAmount) => {
         setCategory(prevCategory => {
@@ -23,9 +27,9 @@ export const CategoryProvider = ({ children }) => {
         })
     }
 
-    const createExpense = (name, amount, description, category) => {
+    const createExpense = (name, amount, description, expenseCategoryId) => {
         setExpense(prevExpense => {
-            return [...prevExpense, { name, amount, description, category }]
+            return [...prevExpense, { name, amount, description, expenseCategoryId }]
         })
     }
 
@@ -35,13 +39,18 @@ export const CategoryProvider = ({ children }) => {
         })
     }
 
+    const getCategoryExpenses = (id) => {
+        return expense.filter(expense => expense.expenseCategoryId === id)
+    }
+
     const value = {
         category,
         expense,
         createCategory,
         deleteCategory,
         createExpense,
-        deleteExpense
+        deleteExpense,
+        getCategoryExpenses
     }
 
   return (

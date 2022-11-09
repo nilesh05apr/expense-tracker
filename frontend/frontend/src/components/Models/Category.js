@@ -41,8 +41,7 @@ function Category({categoryid, name, amount, maxamount}) {
         <ProgressBar className='rounded-pill' animated variant={getColor(amount, maxamount)} min={0} now={amount} max={maxamount} />
 
         <Stack direction="horizontal" gap="2" className="mt-4">
-          <Button variant="outline-primary" className="ms-auto">Add Expense</Button>
-          <Button onClick={handleShow} variant="outline-secondary">View Expenses</Button>
+          <Button onClick={handleShow} variant="outline-secondary" className='ms-auto'>View Expenses</Button>
         </Stack>
 
           <Modal show={show} onHide={handleClose}>
@@ -70,7 +69,7 @@ function Category({categoryid, name, amount, maxamount}) {
 function getColor(amount, max) {
   const percent = (amount / max) * 100;
   if (percent < 50) return 'success';
-  else if (percent < 75) return 'warning';
+  else if (percent < 75) return 'info';
   else return 'danger';
 }
 

@@ -16,6 +16,7 @@ function Expenses({c_id}) {
             setExpenses(data['data'])
             console.log(data['data'])
             setTotal(data['data'].reduce((a, b) => a + b.amount, 0))
+            console.log(data['data'].reduce((a, b) => a + b.amount, 0))
         })
     }, [])
     
