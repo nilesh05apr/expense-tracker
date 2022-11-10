@@ -349,8 +349,6 @@ func UpdateCategoryTotalAmount(c *fiber.Ctx, objID primitive.ObjectID) error {
 	})
 }
 
-
-
 // Delete expense category
 
 func DeleteExpenseCategory(c *fiber.Ctx) error {

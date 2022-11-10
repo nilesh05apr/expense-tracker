@@ -1,8 +1,6 @@
 import React from 'react'
 import {useEffect, useState} from 'react'
 import Category from '../components/Models/Category'
-import { getTotalAmount } from './utils';
-import { useCategory } from '../contexts/CategoryContext';
 import CategoryForm from './CategoryForm';
 import Button from 'react-bootstrap/esm/Button';
 import ExpenseForm from './ExpenseForm';
@@ -10,8 +8,6 @@ import ExpenseForm from './ExpenseForm';
 
 function Categories() {
     const [categories, setCategories] = useState([]);
-    const [total, setTotal] = useState(0);
-    const {category, getCategoryExpenses} = useCategory();
     const [showCategory, setShowCategory] = useState(false);
     const [showExpense, setShowExpense] = useState(false);
 
@@ -42,7 +38,7 @@ function Categories() {
             <Category key={category._id}
                 categoryid={category._id}
                 name={category.name}
-                amount={10000}
+                amount={category.amount}
                 maxamount={category.maxAmount} />
             ))}
 

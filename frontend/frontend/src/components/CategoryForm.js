@@ -3,20 +3,34 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useRef } from 'react';
-import { useCategory } from '../contexts/CategoryContext';
 
 
 function CategoryForm({show, handleClose}) {
     const nameRef = useRef();
     const maxAmountRef = useRef();
 
-    const {createCategory} = useCategory();
 
     function handleSubmit(e) {
         e.preventDefault();
         console.log(nameRef.current.value);
         console.log(maxAmountRef.current.value);
-        createCategory({name:nameRef.current.value, maxAmount:maxAmountRef.current.value});
+        const data = {
+            name: nameRef.current.value,
+            amount: 0,
+            maxAmount: parseFloat(maxAmountRef.current.value)
+        }
+        fetch('http://localhost:8081/api/expenseCategories/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+        handleClose();
     }
 
 
