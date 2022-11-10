@@ -1,18 +1,20 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"backend/pkg/models"
 	"backend/pkg/configs"
-	
-	"time"
-	"net/http"
+	"backend/pkg/models"
+
 	"context"
+	"net/http"
+	"time"
 )
 
 
@@ -120,6 +122,8 @@ func CreateExpense(c *fiber.Ctx) error {
 			"error": err,
 		})
 	}
+	fmt.Println(expense.ExpenseCategoryID)
+	UpdateCategoryTotalAmount(c , expense.ExpenseCategoryID)
 	return c.Status(http.StatusCreated).JSON(fiber.Map{
 		"success": true,
 		"data": result,
@@ -155,6 +159,7 @@ func UpdateExpense(c *fiber.Ctx) error {
 			"error": err,
 		})
 	}
+	UpdateCategoryTotalAmount(c , expense.ExpenseCategoryID)
 	return c.Status(http.StatusOK).JSON(fiber.Map{
 		"success": true,
 		"data": result,
@@ -174,6 +179,8 @@ func DeleteExpense(c *fiber.Ctx) error {
 			"error": err,
 		})
 	}
+	var expense models.Expense
+	UpdateCategoryTotalAmount(c , expense.ExpenseCategoryID)
 	return c.Status(http.StatusOK).JSON(fiber.Map{
 		"success": true,
 		"data": result,
@@ -199,6 +206,10 @@ func GetExpenseCategories(c *fiber.Ctx) error {
 			"message": "Cannot get expense categories",
 			"error": err,
 		})
+	}
+	// update amount for each category
+	for i := 0; i < len(expenseCategories); i++ {
+		UpdateCategoryTotalAmount(c , expenseCategories[i].ID)
 	}
 	return c.Status(http.StatusOK).JSON(fiber.Map{
 		"success": true,
@@ -292,6 +303,53 @@ func UpdateExpenseCategory(c *fiber.Ctx) error {
 		"data": result,
 	})
 }
+
+// Update Category total amount
+func UpdateCategoryTotalAmount(c *fiber.Ctx, objID primitive.ObjectID) error {
+	// id := c.Params("id")
+	// objID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"expenseCategoryId": objID}
+
+	// Get total amount of expense category
+	cur, err := expenseCollection.Find(context.Background(), filter)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"message": "Cannot get expense category total amount",
+			"error": err,
+		})
+	}
+	var expenses []models.Expense
+	if err = cur.All(context.Background(), &expenses); err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"message": "Cannot get expense category total amount",
+			"error": err,
+		})
+	}
+	var totalAmount float64
+	for _, expense := range expenses {
+		totalAmount += expense.Amount
+	}
+	
+	// Update expense category total amount
+	filter = bson.M{"_id": objID}
+	update := bson.M{"$set": bson.M{"Amount": totalAmount}}
+	result, err := expenseCategoryCollection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"message": "Cannot update expense category total amount",
+			"error": err,
+		})
+	}
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"data": result,
+	})
+}
+
+
 
 // Delete expense category
 
